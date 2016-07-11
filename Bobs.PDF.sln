@@ -1,0 +1,41 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{84BF9C11-6339-4E9A-A8F2-0DFAD2F417A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7898A7A0-98A8-4BC1-B097-EA0C42D9F7B4}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Bobs.PDF", "src\Bobs.PDF\Bobs.PDF.xproj", "{F3150942-9818-4A6A-BD09-D46BD33F38FE}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Bobs.PDF.Tests", "test\Bobs.PDF.Tests\Bobs.PDF.Tests.xproj", "{9ADA08CB-05D6-4793-857D-B9A2FDED1FE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7F101954-8C04-4E3D-B722-B2328B036EF2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F3150942-9818-4A6A-BD09-D46BD33F38FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3150942-9818-4A6A-BD09-D46BD33F38FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3150942-9818-4A6A-BD09-D46BD33F38FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3150942-9818-4A6A-BD09-D46BD33F38FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9ADA08CB-05D6-4793-857D-B9A2FDED1FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9ADA08CB-05D6-4793-857D-B9A2FDED1FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9ADA08CB-05D6-4793-857D-B9A2FDED1FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9ADA08CB-05D6-4793-857D-B9A2FDED1FE2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F3150942-9818-4A6A-BD09-D46BD33F38FE} = {84BF9C11-6339-4E9A-A8F2-0DFAD2F417A2}
+		{9ADA08CB-05D6-4793-857D-B9A2FDED1FE2} = {7F101954-8C04-4E3D-B722-B2328B036EF2}
+	EndGlobalSection
+EndGlobal
