@@ -21,6 +21,7 @@ namespace Bobs.PDF.Tests
 >>
 endobj
 [nul]
+<</Single/Line>>
 %%EOF");
 
 			// Act / Assert
@@ -246,6 +247,36 @@ endobj
 			tokenizer.MoveNext();
 
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfArray));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(tokenizer.Token, Is.EqualTo(""));
+
+			tokenizer.MoveNext();
+
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.Whitespace));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(tokenizer.Token, Is.EqualTo("\r\n"));
+
+			tokenizer.MoveNext();
+
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.StartOfDictionary));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(tokenizer.Token, Is.EqualTo(""));
+
+			tokenizer.MoveNext();
+
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.Name));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(tokenizer.Token, Is.EqualTo("Single"));
+
+			tokenizer.MoveNext();
+
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.Name));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(tokenizer.Token, Is.EqualTo("Line"));
+
+			tokenizer.MoveNext();
+
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfDictionary));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
 			Assert.That(tokenizer.Token, Is.EqualTo(""));
 

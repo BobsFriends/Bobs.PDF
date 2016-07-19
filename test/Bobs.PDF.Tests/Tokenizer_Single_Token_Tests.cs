@@ -50,6 +50,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.Comment));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
 			Assert.That(tokenizer.Token, Is.EqualTo("Blah"));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -65,6 +69,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.Whitespace));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
 			Assert.That(tokenizer.Token, Is.EqualTo("\t\r\n"));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -82,6 +90,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.Token, Is.EqualTo("1.234"));
 			Assert.That(tokenizer.IntegerValue, Is.EqualTo(1));
 			Assert.That(tokenizer.RealValue, Is.EqualTo(1.234));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -99,6 +111,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.Token, Is.EqualTo("-1.234"));
 			Assert.That(tokenizer.IntegerValue, Is.EqualTo(-1));
 			Assert.That(tokenizer.RealValue, Is.EqualTo(-1.234));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -116,6 +132,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.Token, Is.EqualTo("1234"));
 			Assert.That(tokenizer.IntegerValue, Is.EqualTo(1234));
 			Assert.That(tokenizer.RealValue, Is.EqualTo(1234));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -133,6 +153,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.Token, Is.EqualTo("-1234"));
 			Assert.That(tokenizer.IntegerValue, Is.EqualTo(-1234));
 			Assert.That(tokenizer.RealValue, Is.EqualTo(-1234));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -148,6 +172,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.Word));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
 			Assert.That(tokenizer.Token, Is.EqualTo("hello"));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -164,6 +192,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.String));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.Literal));
 			Assert.That(tokenizer.Token, Is.EqualTo("Hello\r + \n(World)"));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -179,6 +211,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.String));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.Hex));
 			Assert.That(tokenizer.Token, Is.EqualTo("Hello"));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -194,6 +230,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.Name));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
 			Assert.That(tokenizer.Token, Is.EqualTo("Hello"));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -209,6 +249,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.Name));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
 			Assert.That(tokenizer.Token, Is.EqualTo("Hello World"));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -224,6 +268,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.StartOfArray));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
 			Assert.That(tokenizer.Token, Is.EqualTo(""));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -239,6 +287,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfArray));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
 			Assert.That(tokenizer.Token, Is.EqualTo(""));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -254,6 +306,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.StartOfDictionary));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
 			Assert.That(tokenizer.Token, Is.EqualTo(""));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 
 		[Test]
@@ -269,6 +325,10 @@ namespace Bobs.PDF.Tests
 			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfDictionary));
 			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
 			Assert.That(tokenizer.Token, Is.EqualTo(""));
+			bool success        = tokenizer.MoveNext();
+			Assert.That(tokenizer.TokenType, Is.EqualTo(TokenType.EndOfFile));
+			Assert.That(tokenizer.SubType, Is.EqualTo(TokenSubType.None));
+			Assert.That(success, Is.False);
 		}
 	}
 }

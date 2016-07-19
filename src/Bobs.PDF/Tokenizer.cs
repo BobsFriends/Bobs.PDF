@@ -51,6 +51,20 @@ namespace Bobs.PDF
 		public TokenType TokenType { get; private set; }
 		public TokenSubType SubType { get; private set; }
 
+		public bool IsOf(TokenType tokenType, TokenSubType subType = TokenSubType.None)
+		{
+			return (TokenType == tokenType) && (SubType == subType);
+		}
+		public void Expect(TokenType tokenType, TokenSubType? subType = null, string token = null)
+		{
+			if (TokenType != tokenType)
+				throw new FormatException($"Expected token of type {tokenType}, got {TokenType}!");
+			if (subType.HasValue && (SubType != subType.Value))
+				throw new FormatException($"Expected token of type {TokenType} to have sub type {subType}, got {SubType}!");
+			if ((token != null) && (Token != token))
+				throw new FormatException($"Expected token of type {TokenType} with sub type {SubType} to have token '{token}', got '{Token}'!");
+		}
+
 		public string Token
 		{
 			get { return Buffer.Value; }
@@ -62,7 +76,7 @@ namespace Bobs.PDF
 		{
 			get; private set;
 		}
-		public decimal IntegerValue
+		public int IntegerValue
 		{
 			get; private set;
 		}
@@ -217,6 +231,26 @@ namespace Bobs.PDF
 			return true;
 		}
 
+		public bool SkipWhitespace(bool allowEOF = false)
+		{
+			if (!MoveNext())
+			{
+				if (!allowEOF)
+					throw new FormatException("Unexpected EOF!");
+				return false;
+			}
+			if (TokenType == TokenType.Whitespace)
+			{
+				if (!MoveNext())
+				{
+					if (!allowEOF)
+						throw new FormatException("Unexpected EOF!");
+					return false;
+				}
+			}
+			return true;
+		}
+
 		private void ReadWord()
 		{
 			TokenType	= TokenType.Word;
@@ -364,7 +398,7 @@ namespace Bobs.PDF
 					if (SubType == TokenSubType.Real)
 						throw new FormatException("A number can only have one period.");
 					SubType			= TokenSubType.Real;
-					IntegerValue	= negate ? -value : value;
+					IntegerValue	= (int)(negate ? -value : value);
 					break;
 				default:
 					value			= (value * 10) + (CurrentCharacter - Character.Zero);
@@ -379,7 +413,7 @@ namespace Bobs.PDF
 				value			= -value;
 			RealValue		= value * factor;
 			if (SubType == TokenSubType.Integer)
-				IntegerValue	= value;
+				IntegerValue	= (int)value;
 		}
 
 		private void ReadLiteralString()
@@ -514,6 +548,7 @@ namespace Bobs.PDF
 			}
 			if (CurrentCharacter != Character.AngleBracketRight)
 				throw new FormatException("Expected character '>'!");
+			ReadNextCharacter();
 		}
 
 		private void ReadStartOfDictionary()
@@ -550,6 +585,36 @@ namespace Bobs.PDF
 			SubType			= TokenSubType.None;
 			Continue		= true;
 			ReadNextCharacter();
+		}
+
+		public long Position
+		{
+			get { return _stream.Position - 1; }
+			set
+			{
+				_stream.Position	= value;
+				TokenType			= TokenType.Unknown;
+				SubType				= TokenSubType.None;
+				Continue			= true;
+				ReadNextCharacter();
+			}
+		}
+
+		public Stream ReadStream(int length)
+		{
+			if (CurrentCharacter == Character.CarriageReturn)
+				ReadNextCharacter();
+			if (CurrentCharacter == Character.LineFeed)
+				ReadNextCharacter();
+			TokenType			= TokenType.Unknown;
+			SubType				= TokenSubType.None;
+			Continue			= true;
+			byte[] data			= new byte[length];
+			data[0]				= CurrentCharacter;
+			_stream.Read(data, 1, length - 1);
+			MemoryStream memStream = new MemoryStream(data);
+			ReadNextCharacter();
+			return memStream;
 		}
 
 		#region IDisposable Support
@@ -589,5 +654,31 @@ namespace Bobs.PDF
 		}
 
 		#endregion
+
+		public override string ToString()
+		{
+			switch (TokenType)
+			{
+			case TokenType.StartOfArray:
+			case TokenType.EndOfArray:
+			case TokenType.StartOfDictionary:
+			case TokenType.EndOfDictionary:
+			case TokenType.StartOfFile:
+			case TokenType.EndOfFile:
+				return $"[{TokenType}]";
+			case TokenType.Comment:
+			case TokenType.Name:
+			case TokenType.Whitespace:
+			case TokenType.Word:
+				return $"[{TokenType}: '{Token}']";
+			case TokenType.String:
+				return $"[{TokenType}/{SubType}: '{Token}']";
+			case TokenType.Number:
+				return $"[{TokenType}/{SubType}: {RealValue}]";
+			case TokenType.Unknown:
+			default:
+				return $"[Unknown token type {TokenType}, sub type {SubType}]";
+			}
+		}
 	}
 }

@@ -18,6 +18,8 @@ namespace Bobs.PDF
 
 		public int Capacity { get; private set; }
 		public int Position { get; private set; }
+		public byte[] Data { get { return _buffer.Take(Position).ToArray(); } }
+
 		public string Value
 		{
 			get
