@@ -16,5 +16,10 @@ namespace Bobs.PDF.Objects
 
 		public PdfDictionary Dictionary { get; }
 		public Stream Stream { get; }
+
+		public override string ToString()
+		{
+			return $"{Dictionary}, {Stream}";
+		}
 	}
 }

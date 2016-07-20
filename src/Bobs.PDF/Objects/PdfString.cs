@@ -43,7 +43,7 @@ namespace Bobs.PDF.Objects
 
 		public override string ToString()
 		{
-			return Text;
+			return $"\"{Text}\"";
 		}
 	}
 }

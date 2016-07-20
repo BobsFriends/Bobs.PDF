@@ -21,7 +21,7 @@ namespace Bobs.PDF
 
 		protected abstract void ReadBody();
 
-		protected abstract void ReadContent(string stopToken);
+		protected abstract void ReadContent(params string[] stopTokens);
 
 		protected abstract void ReadCrossReferenceTable();
 
@@ -129,7 +129,7 @@ namespace Bobs.PDF
 					Push(new IndirectReference(objectNumber, generationNumber));
 					break;
 				}
-			case "nul":
+			case "null":
 				{
 					Push(null);
 					break;

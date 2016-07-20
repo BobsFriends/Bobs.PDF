@@ -40,16 +40,23 @@ namespace Bobs.PDF
 		{
 			do
 			{
-				ReadContent("xref");
-				ReadCrossReferenceTable();
-				ReadContent("startxref");
-				TrailerDictionary = Pop<PdfDictionary>();
+				ReadContent("xref", "startxref");
+				if (_tokenizer.Token == "xref")
+				{
+					ReadCrossReferenceTable();
+					ReadContent("startxref");
+					TrailerDictionary = Pop<PdfDictionary>();
+				}
+				else
+				{
+					TrailerDictionary = Store.Entries.Select(e => e.Value).OfType<PdfDictionary>().FirstOrDefault(d => d.Get<string>("Type") == "XRef");
+				}
 				ReadStartOfCrossReferenceTable();
 			}
 			while (_tokenizer.TokenType != TokenType.EndOfFile);	// Repeat for updates
 		}
 
-		protected override void ReadContent(string stopToken)
+		protected override void ReadContent(params string[] stopTokens)
 		{
 			do
 			{
@@ -114,7 +121,7 @@ namespace Bobs.PDF
 					}
 				case TokenType.Word:
 					{
-						if (_tokenizer.Token == stopToken)
+						if (stopTokens.Contains(_tokenizer.Token))
 							return;
 						Execute(_tokenizer.Token);
 						break;

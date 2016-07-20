@@ -15,5 +15,10 @@ namespace Bobs.PDF.Objects
 
 		public int ObjectNumber { get; }
 		public ushort GenerationNumber { get; }
+
+		public override string ToString()
+		{
+			return $"{ObjectNumber} {GenerationNumber} R";
+		}
 	}
 }

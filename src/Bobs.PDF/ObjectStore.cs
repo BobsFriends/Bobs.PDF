@@ -9,6 +9,7 @@ namespace Bobs.PDF
 	public class ObjectStore
 	{
 		private Dictionary<int, List<ObjectRecord>> _store = new Dictionary<int, List<ObjectRecord>>();
+		const ushort GenerationFree = 0xFFFF;
 
 		private class ObjectRecord
 		{
@@ -16,10 +17,33 @@ namespace Bobs.PDF
 			public object Value { get; set; }
 			public bool Loaded { get; set; }
 			public bool Free { get; set; }
+
+			public override string ToString()
+			{
+				return $"{Position:0000000000} '{Value}' (L={Loaded}, F={Free})";
+			}
+		}
+
+		public IEnumerable<KeyValuePair<IndirectReference, object>> Entries
+		{
+			get
+			{
+				return _store
+					.SelectMany(e
+					=> e.Value
+						.Where(o => o.Free == false)
+						.Select((o, i)
+						=> new KeyValuePair<IndirectReference, object>(
+							new IndirectReference(e.Key, (ushort)i),
+							o.Value)));
+			}
 		}
 
 		public void SetValue(int objectNumber, ushort generationNumber, object value)
 		{
+			if (generationNumber == GenerationFree)
+				throw new InvalidOperationException();
+
 			ObjectRecord record		= Get(objectNumber, generationNumber);
 			record.Value			= value;
 			record.Loaded			= true;
@@ -28,6 +52,9 @@ namespace Bobs.PDF
 
 		public void SetPosition(int objectNumber, ushort generationNumber, int value)
 		{
+			if (generationNumber == GenerationFree)
+				throw new InvalidOperationException();
+
 			ObjectRecord record		= Get(objectNumber, generationNumber);
 			record.Position			= value;
 			record.Free				= false;
@@ -35,6 +62,9 @@ namespace Bobs.PDF
 
 		public void Free(int objectNumber, ushort generationNumber)
 		{
+			if (generationNumber == GenerationFree)
+				return;
+
 			ObjectRecord record		= Get(objectNumber, generationNumber);
 			record.Free				= true;
 		}
